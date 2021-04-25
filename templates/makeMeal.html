@@ -1,0 +1,49 @@
+      {% extends 'base.html'  %}
+      {% block title %}Find a meal{% endblock %}
+      {% block content %}
+
+        <nav class="navbar sticky-top navbar-expand-md navbar-dark bg-dark">
+            <a href="/" class="navbar-brand">What are you in the mood for?</a>
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+            <form id="search-form" class="form-inline ml-auto inline" action="/find-meals" method="POST">
+                  <select class="custom-select" name="search-by" id="select">
+                    <option id="search-categories" value="category">Search By Category</option>
+                    <option id="search-main-ingridient" value="mainIngridient">Search By Main Ingredient</option>
+                    <option id="search-name" value="name">Search by Name</option>
+                  </select>
+              
+                  
+                    <input type="text" class="form-control mr-sm-2 inline" placeholder="Search" name="search-term" id="search">
+                      <button type="submit" class="btn btn-outline-light btn-inline form-inline inline">Search</button>
+                  </form>
+                     
+                  <div class="navbar-nav">
+                      <a href="/my-recipes" class="nav-item nav-link">My Recipes</a>
+                      <a href="/help" class="nav-item nav-link">Help</a>
+                      <a href="/logout" class="nav-item nav-link">Log out</a>
+                  </div>
+
+              </div>
+          </nav>
+
+          <b><p id="result-heading"></p></b>
+
+
+        <div class="search-results container">
+        
+
+          
+        
+          {% block child %}
+          {% endblock %}
+        </div>
+
+
+
+    {% endblock %}
+    {% block script %}
+    <script src="/static/app.js"></script>
+    {% endblock %}

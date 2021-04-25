@@ -1,0 +1,26 @@
+{% extends 'makeMeal.html' %}
+
+{% block child %}
+<div class="row row-cols-1 row-cols-md-3 g-4">
+{% if my_recipes %}
+    {% for recipe in my_recipes %}
+    <div class="col">
+    <div class="card h-100 meal container border border-primary " >
+        <div>
+            <img src="{{ recipe['strMealThumb'] }}" class="rounded-circle card-img-top"/>
+        </div>
+        <div class="meal-name">
+            <a href="/find-meals/{{ recipe['idMeal'] }}" class="btn meal-link btn-warning container-fluid">{{ recipe['strMeal'] }}</a>
+        </div>
+              
+    </div>
+    </div>
+    <br>
+    <br>
+    {% endfor %}
+{% else %}
+<p>No recipes Added yet!</p>
+{% endif %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'makeMeal.html' %}
+
+{% block child %}
+<p>Hello there! Need help navigating the website? If you go back to your <a href"/">Home Page</a> and submit the search form by selecting a serach type. and search term. 
+    <ul>
+     <li>If you want to search by meal name. Select name and search meal name. If nothing shows up, it means we have no meals with that name or similiar to that name.</li>
+     <li>If you want to search by main ingridient. Select main ingridient and search ingredient. If nothing shows up, it means no meals have that ingridient as a main ingridient but does not mean there are no recipes with that ingridient.</li>
+     <li>If you want to search by a category like breakfast. Select category and search breakfast. View all our categories below!</li>
+    </ul>
+</p>
+{% for category in categories %}
+    <div class="card h-100 meal container border border-primary " >
+        <div>
+            <img src="{{ category['strCategoryThumb'] }}" class="rounded-circle card-img-top"/>
+        </div>
+        <div class="meal-name">
+            <a href="find-meals/{{ category['strCategory'] }}" class="btn meal-link btn-warning container-fluid">{{ category["strCategory"] }}</a>
+        </div>
+        <div class="card-description">
+            <p>{{ category["strCategoryDescription"] }}</p>
+        </div>
+    </div>
+{% endfor %}
+{% endblock %}

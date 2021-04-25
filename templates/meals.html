@@ -1,0 +1,23 @@
+{% extends 'makeMeal.html' %}
+
+{% block child %}
+<div class="row row-cols-1 row-cols-md-3 g-4">
+{% if meals %}
+    {% for meal in meals %}
+    <div class="col">
+    <div class="card h-100 meal container border border-primary " style="width: 18rem;">
+        <div>
+            <img src="{{ meal['strMealThumb'] }}" class="rounded-circle card-img-top"/>
+        </div>
+        <div class="meal-name">
+            <a href="/find-meals/{{ meal['idMeal'] }}" class="btn meal-link btn-warning container-fluid">{{ meal['strMeal'] }}</a>
+        </div>
+              
+    </div>
+    </div>
+    <br>
+    <br>
+    {% endfor %}
+{% endif %}
+</div>
+{% endblock %}

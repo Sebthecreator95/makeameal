@@ -1,0 +1,124 @@
+{% extends 'makeMeal.html' %}
+
+{% block child %}
+{% if meal %}
+    <div class="meal">
+        <h1 class="underline">{{ meal["strMeal"] }}</h1>
+        <form method="POST" action="/my-recipes" class="form-inline">
+            <input type="hidden"  name="recipe" id="recipe" value="{{ meal['idMeal'] }}">
+            <button type="submit" class="btn btn-outline-warning ml-2">Add To Recipe Book!</button>
+          </form>
+        <div class="image-wrapper">
+            <img src="{{ meal['strMealThumb'] }}" class="rounded-circle"/>
+            <h3 class="display-3">
+                Ingridients
+            </h3>
+            <small>This is what you will need!</small>
+            <ul class="ingridients">
+                <li>
+                    {{ meal["strMeasure1"] }}{{ meal["strIngredient1"] }}
+                </li>
+                <li>
+                    {{ meal["strMeasure2"] }}{{ meal["strIngredient2"] }}
+                </li>
+                <li>
+                    {{ meal["strMeasure3"] }}{{ meal["strIngredient3"] }}
+                </li>
+                {% if meal["strIngredient4"] %}
+                    <li>
+                        {{ meal["strMeasure4"] }}{{ meal["strIngredient4"] }}
+                    </li>
+                {% endif %}
+                {% if meal["strIngredient5"] %}
+                    <li>
+                        {{ meal["strMeasure5"] }}{{ meal["strIngredient5"] }}
+                    </li>
+                {% endif %}
+                {% if meal["strIngredient6"] %}
+                    <li>
+                        {{ meal["strMeasure6"] }}{{ meal["strIngredient6"] }}
+                    </li>
+                {% endif %}
+                {% if meal["strIngredient7"] %}
+                    <li>
+                        {{ meal["strMeasure7"] }}{{ meal["strIngredient7"] }}
+                    </li>
+                {% endif %}
+                {% if meal["strIngredient8"] %}
+                    <li>
+                        {{ meal["strMeasure8"] }}{{ meal["strIngredient8"] }}
+                    </li>
+                {% endif %}
+                {% if meal["strIngredient9"] %}
+                    <li>
+                        {{ meal["strMeasure9"] }}{{ meal["strIngredient9"] }}
+                    </li>
+                {% endif %}
+                {% if meal["strIngredient10"] %}
+                    <li>
+                        {{ meal["strMeasure10"] }}{{ meal["strIngredient10"] }}
+                    </li>
+                {% endif %}
+                {% if meal["strIngredient11"] %}
+                    <li>
+                        {{ meal["strMeasure11"] }}{{ meal["strIngredient11"] }}
+                    </li>
+                {% endif %}
+                {% if meal["strIngredient12"] %}
+                    <li>
+                        {{ meal["strMeasure12"] }}{{ meal["strIngredient12"] }}
+                    </li>
+                {% endif %}
+                {% if meal["strIngredient13"] %}
+                    <li>
+                        {{ meal["strMeasure13"] }}{{ meal["strIngredient13"] }}
+                    </li>
+                {% endif %}
+                {% if meal["strIngredient14"] %}
+                    <li>
+                        {{ meal["strMeasure14"] }}{{ meal["strIngredient14"] }}
+                    </li>
+                {% endif %}
+                {% if meal["strIngredient15"] %}
+                    <li>
+                        {{ meal["strMeasure15"] }}{{ meal["strIngredient15"] }}
+                    </li>
+                {% endif %}
+                {% if meal["strIngredient16"] %}
+                    <li>
+                        {{ meal["strMeasure16"] }}{{ meal["strIngredient16"] }}
+                    </li>
+                {% endif %}
+                {% if meal["strIngredient17"] %}
+                    <li>
+                        {{ meal["strMeasure17"] }}{{ meal["strIngredient17"] }}
+                    </li>
+                {% endif %}
+                {% if meal["strIngredient18"] %}
+                    <li>
+                        {{ meal["strMeasure18"]}}{{ meal["strIngredient18"] }}
+                    </li>
+                {% endif %}
+                {% if meal["strIngredient19"] %}
+                    <li>
+                        {{ meal["strMeasure19"] }}{{ meal["strIngredient19"] }}
+                    </li>
+                {% endif %}
+                {% if meal["strIngredient20"] %}
+                    <li>
+                        {{ meal["strMeasure20"] }}{{ meal["strIngredient20"] }}
+                    </li>
+                {% endif %}
+            </ul>
+            <h3 class="display-3">
+                Cooking Instructions
+            </h3>
+            <small>Let's get cooking!</small>
+            <p class="instructions">
+                {{ meal["strInstructions" ]}}
+            </p>
+            <b><a href="{{ meal['strYoutube'] }}" target="_blank">Watch recipe video!!!</a></b>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}
