@@ -30,8 +30,9 @@ KEY = "1"
 
 @app.route("/")
 def homepage():
-    """Homepage of site; redirect to register."""
+    """Homepage of site; or redirect to login."""
     if "user_id" not in session:
+        flash("Login First or sign for an ccount!","primary")
         return redirect("/login")
     try:
         res = requests.get("https://www.themealdb.com/api/json/v1/1/categories.php", params={'key': KEY})
@@ -46,17 +47,18 @@ def homepage():
         try:
             res = requests.get(f"{url}{categoryName}", params={'key': KEY})
         except:
+            flash("Something went wrong while requesting data to Api. Try again later?")
             return render_template("404.html")
         data = res.json()
         m = data["meals"]
         meals = meals + m
-
     return render_template("meals.html", meals=meals)
 
 @app.route("/help")
 def user_help():
-    """route where users can view all categories and meals and can get help navigating the app"""
+    """route where users can view all categories and can get help navigating the app"""
     if "user_id" not in session:
+        flash("Login First or sign for an ccount!","primary")
         return redirect("/login")
     try:
         res = requests.get("https://www.themealdb.com/api/json/v1/1/categories.php", params={'key': KEY})
@@ -70,6 +72,7 @@ def user_help():
 def get_meals():
     """submitting form to find meals based on search input."""
     if "user_id" not in session:
+        flash("Login First or sign for an ccount!","primary")
         return redirect("/login")
     search_by = request.form["search-by"]
     search_term = request.form["search-term"]
@@ -87,15 +90,18 @@ def get_meals():
     
     meals = data["meals"]
     if meals == None:
-        flash(f"Searching by {search_by} NO MATCHES for {search_term}")
+        flash(f"Searching by {search_by} NO MATCHES for {search_term}", "warning")
         return render_template("makeMeal.html")
-
+    flash(f"Searching {search_by} of {search_term}", "success")
     return render_template("searchMeals.html", meals=meals)
 
 
 @app.route("/find-meals/<category>")
 def get_category_meals(category):
     """Get all meals by category"""
+    if "user_id" not in session:
+        flash("Login First or sign for an ccount!","primary")
+        return redirect("/login")
     url = "https://www.themealdb.com/api/json/v1/1/filter.php?c="
     try:
         res = requests.get(f"{url}{category}", params={'key': KEY})
@@ -109,6 +115,7 @@ def get_category_meals(category):
 def get_meal(id):
     """render a single meal by id"""
     if "user_id" not in session:
+        flash("Login First or sign for an ccount!","primary")
         return redirect("/login")
     url = "https://www.themealdb.com/api/json/v1/1/lookup.php?i="
     try:
@@ -124,13 +131,13 @@ def get_meal(id):
 def add_recipe():
     """save recipe to users recipes"""
     if "user_id" not in session:
-        flash("Login or Signup first")
+        flash("Login First or sign for an ccount!","primary")
         return redirect("/login")
     user_id = session["user_id"]
     recipe_id = request.form["recipe"]
     r = Recipe.query.filter(Recipe.user_id==user_id, Recipe.recipe_id==recipe_id).first()
     if r is not None:
-        flash("already in your recipes")
+        flash("Already in your recipes", "warning")
         return redirect("/")
     try:
         recipe = Recipe(
@@ -148,7 +155,7 @@ def add_recipe():
         try:
             res = requests.get(f"{url}{recipe.recipe_id}", params={'key': KEY})
         except:
-            flash("That recipe is no longer available")
+            flash("That recipe is no longer available", "warning")
         data = res.json()
         my_recipe = data["meals"]
         r = my_recipe[0]
@@ -158,9 +165,9 @@ def add_recipe():
 
 @app.route("/my-recipes")
 def get_user_recipes():
-    """ """
+    """get all user recipes"""
     if "user_id" not in session:
-        flash("Login or Signup first")
+        flash("Login or Signup first", "primary")
         return redirect("/login")
     my_recipes = []
     recipes = Recipe.query.filter(Recipe.user_id==session["user_id"]).all()
@@ -169,7 +176,7 @@ def get_user_recipes():
         try:
             res = requests.get(f"{url}{recipe.recipe_id}", params={'key': KEY})
         except:
-            flash("That recipe is no longer available")
+            flash("That recipe is no longer available", "warning")
         data = res.json()
         recipe = data["meals"]
         r = recipe[0]
@@ -182,7 +189,7 @@ def signup():
     """Sign UP a user: produce form and handle form submission."""
 
     if "user_id" in session:
-        flash("You already have an account")
+        flash("You already have an account", "danger")
         return redirect("/")
 
     form = SignUpForm()
@@ -213,7 +220,7 @@ def login():
     """Produce login form or handle login."""
 
     if "user_id" in session:
-        flash("You are already logged in!")
+        flash("You are already logged in!", "danger")
         return redirect("/")
 
     form = LogInForm()
@@ -235,30 +242,27 @@ def login():
 
 @app.route("/logout")
 def logout():
-    """Logout route."""
+    """Logout, pop user_id from session"""
     if "user_id" not in session:
         raise Unauthorized()
     session.pop("user_id")
+    flash("See you later!", "primary")
     return redirect("/login")
 
 
 @app.route("/users/<int:id>")
 def show_user(id):
-    """Example page for logged-in-users."""
-
+    """User profile"""
     if "user_id" not in session or id != session["user_id"]:
         raise Unauthorized()
-
     user = User.query.get(id)
     form = DeleteForm()
-
     return render_template("user.html", user=user, form=form)
 
 
 @app.route("/users/<int:id>/delete", methods=["POST"])
 def remove_user(id):
-    """Remove user nad redirect to login."""
-
+    """Remove user and redirect to login."""
     if "user_id" not in session or id != session["user_id"]:
         raise Unauthorized()
 
@@ -266,16 +270,5 @@ def remove_user(id):
     db.session.delete(user)
     db.session.commit()
     session.pop("user_id")
-
+    flash("Sad to see you go", "warning")
     return redirect("/login")
-
-
-
-
-
-#@app.route("/meals")
-# def meals_form():
-
-
-
-
