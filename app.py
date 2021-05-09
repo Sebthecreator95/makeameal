@@ -11,7 +11,7 @@ import re
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'postgres://meal_db')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'postgres:///meal_db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY", "secreto001")
@@ -202,6 +202,7 @@ def signup():
                 password=form.password.data,
                 image_url=form.image_url.data
             )
+            db.session.add(user)
             db.session.commit()
 
         except IntegrityError:
